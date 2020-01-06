@@ -2,12 +2,12 @@
 import numpy as np
 from functions import *
 
-#%% class Relu
+#%% Relu
 class Relu:
     
     def __init__(self):
         self.mask = None
-    
+        
     def forward(self, X):
         self.mask = X <= 0
         out = X.copy()
@@ -17,11 +17,11 @@ class Relu:
     
     def backward(self, dout):
         dout[self.mask] = 0
-        dx = dout
+        dX = dout
         
-        return dx
+        return dX
         
-#%% class Sigmoid
+#%% Sigmoid
 class Sigmoid:
     
     def __init__(self):
@@ -33,11 +33,11 @@ class Sigmoid:
         return self.out
     
     def backward(self, dout):
-        dx = dout * self.out * (1 - self.out)
+        dX = dout * self.out * (1.0 - self.out)
         
-        return dx
+        return dX
 
-#%% class Affine
+#%% Affine
 class Affine:
     
     def __init__(self, W, b):
@@ -49,7 +49,7 @@ class Affine:
         
     def forward(self, X):
         self.X = X
-        out = np.dot(self.X, self.W) + self.b
+        out = np.dot(X, self.W) + self.b
         
         return out
     
@@ -64,8 +64,8 @@ class Affine:
 class SoftmaxWithLoss:
     
     def __init__(self):
-        self.Y = None
         self.T = None
+        self.Y = None
         self.loss = None
         
     def forward(self, X, T):
@@ -77,6 +77,6 @@ class SoftmaxWithLoss:
     
     def backward(self, dout = 1):
         batch_size = self.T.shape[0]
-        dx = (self.Y - self.T) / batch_size
+        dX = (self.Y - self.T) / batch_size
         
-        return dx
+        return dX
